@@ -2,6 +2,13 @@
 .Rhistory
 .Rapp.history
 
+# Sweave files
+*.Rnw
+*.log
+*.synctex.gz
+*-concordance.tex
+*.tex
+
 # Mac only file - not needed by other systems
 .DS_Store
 
