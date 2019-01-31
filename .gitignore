@@ -39,6 +39,9 @@ vignettes/*.pdf
 rsconnect/
 .Rproj.user
 
+# Rprojects
+*.Rproj
+
 # Produce README file; for debugging
 README.html
 *.mlx
