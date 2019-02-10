@@ -1,0 +1,22 @@
+---
+title: 'BCB 570: Homework 2'
+author: "Paul Villanueva"
+date: "2/15/2019"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, message = FALSE}
+knitr::opts_chunk$set(echo = TRUE, cache = TRUE, message = FALSE)
+library(igraph, warn.conflicts = FALSE)
+library(ggplot2, warn.conflicts = FALSE)
+library(tidyverse, warn.conflicts = FALSE)
+set.seed(489)
+```
+
+# \#1
+
+# \#2
+
+# \#3
