@@ -3,7 +3,7 @@
 .Rapp.history
 
 # Data files
-/data
+data/
 
 # Sweave files
 *.Rnw
