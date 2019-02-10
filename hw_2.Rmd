@@ -92,7 +92,7 @@ plot(make_full_graph(5))
 We first read in `graphA.txt` and visualize it:
 
 ```{r}
-g_a <- read_graph("graphA.txt", directed = FALSE)
+g_a <- read_graph("./data/hw2/graphA.txt", directed = FALSE)
 plot(g_a)
 ```
 
@@ -235,7 +235,7 @@ For the remaining graphs, the results are summarized in a table without showing 
 We say a graph follows a power-law distribution if the distribution of $P(k) \sim k^{-\lambda}$ for some $\lambda \in \mathbf{R}$. A first check to see if a graph follows a power law is to visually inspect the distribution of $P(k)$ and see if it appears to follow a power law.  For example, for $g_b$, the graph built from `graphB.txt`, the distribution of $P(k)$ is:
 
 ```{r}
-g_b <- read_graph("graphB.txt", directed = FALSE)
+g_b <- read_graph("./data/hw2/graphB.txt", directed = FALSE)
 plot_dd(g_b)
 ```
 
