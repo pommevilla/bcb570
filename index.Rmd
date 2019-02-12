@@ -1,13 +1,12 @@
 ---
-title: "Tipping Points of AMR"
+title: "BCB 570: Systems Biology"
 ---
 
 All code and analysis presented here by [Paul Villanueva][paul_github].
 
 ## About
 
-*Under construction*
-
+Assignments for Iowa State University's BCB 570 class.
 
 ## Contact
 
