@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Paul Villanueva" />
+
+
+<title>BCB 570: Homework 2</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">About</a>
+</li>
+<li>
+  <a href="hw_2.html">Assignment 2</a>
+</li>
+<li>
+  <a href="hw_3.html">Assignment 3</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">BCB 570: Homework 2</h1>
+<h4 class="author"><em>Paul Villanueva</em></h4>
+<h4 class="date"><em>2/15/2019</em></h4>
+
+</div>
+
+
+<pre class="r"><code>knitr::opts_chunk$set(echo = TRUE, cache = TRUE, message = FALSE)
+library(igraph, warn.conflicts = FALSE)
+library(ggplot2, warn.conflicts = FALSE)
+library(NetRep, warn.conflicts = FALSE)
+library(tidyverse, warn.conflicts = FALSE)
+library(openxlsx, warn.conflicts = FALSE)</code></pre>
+<div id="section" class="section level1">
+<h1>#1</h1>
+<p>Reading in both graphs, merging two graphs via <code>igraph::union</code>:</p>
+<pre class="r"><code>g_y2h &lt;- graph_from_data_frame(read.xlsx(&quot;./data/hw3/Y2H_uniondata.xlsx&quot;), directed = FALSE)
+g_ccsb &lt;- graph_from_data_frame(read.xlsx(&quot;./data/hw3/CCSB_YI1.xlsx&quot;), directed = FALSE)
+g_union &lt;- g_ccsb %u% g_y2h</code></pre>
+<div id="a." class="section level3">
+<h3>a.</h3>
+<p>Defining a function to visualize a graph’s degree distribution:</p>
+<pre class="r"><code>plot_dd &lt;- function(g){
+  g.dd &lt;- data.frame(0:(length(degree_distribution(g)) - 1), 
+                     degree_distribution(g, cumulative = FALSE))
+  colnames(g.dd) &lt;-c(&quot;k&quot;, &quot;p_k&quot;)
+  ggplot(g.dd, aes(x = k, y = p_k)) + geom_bar(stat = &quot;identity&quot;) +
+    labs(x = &quot;k&quot;, y = &quot;p(k)&quot;, title = &quot;Degree distribution: k vs. p(k)&quot;, 
+         subtitle = paste(&quot;Graph:&quot;, deparse(substitute(g)))) +
+    theme(plot.title = element_text(hjust = 0.5), plot.subtitle = element_text(hjust = 0.5))
+}</code></pre>
+<pre class="r"><code>plot_dd(g_union)</code></pre>
+<p><img src="hw_3_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>Some graph metrics</p>
+<table>
+<thead>
+<tr class="header">
+<th>Metric</th>
+<th><code>g_y2h</code></th>
+<th><code>g_ccsb</code></th>
+<th><code>g_union</code></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Radius</td>
+<td><span class="math inline">\(3.48\)</span></td>
+<td><span class="math inline">\(1.76\)</span></td>
+<td><span class="math inline">\(5.93\)</span></td>
+</tr>
+<tr class="even">
+<td>Diameter</td>
+<td><span class="math inline">\(11\)</span></td>
+<td><span class="math inline">\(5\)</span></td>
+<td><span class="math inline">\(16\)</span></td>
+</tr>
+<tr class="odd">
+<td>Average path lenght</td>
+<td><span class="math inline">\(3.48\)</span></td>
+<td><span class="math inline">\(1.76\)</span></td>
+<td><span class="math inline">\(5.93\)</span></td>
+</tr>
+<tr class="even">
+<td>Average clustering coefficient</td>
+<td><span class="math inline">\(0.10\)</span></td>
+<td><span class="math inline">\(0.11\)</span></td>
+<td><span class="math inline">\(0.10\)</span></td>
+</tr>
+<tr class="odd">
+<td>Global clustering coefficient</td>
+<td><span class="math inline">\(0.024\)</span></td>
+<td><span class="math inline">\(0.021\)</span></td>
+<td><span class="math inline">\(0.024\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Determining if the graph follows a power law distribution:</p>
+<pre class="r"><code>g_union.pl_fit &lt;- fit_power_law(degree(g_union))
+g_union.pl_fit</code></pre>
+<pre><code>## $continuous
+## [1] FALSE
+## 
+## $alpha
+## [1] 2.893596
+## 
+## $xmin
+## [1] 7
+## 
+## $logLik
+## [1] -462.446
+## 
+## $KS.stat
+## [1] 0.02677559
+## 
+## $KS.p
+## [1] 0.9997574</code></pre>
+</div>
+<div id="b." class="section level3">
+<h3>b.</h3>
+<pre class="r"><code>graph_hot_otus &lt;- function(graph_object){
+  communities_object &lt;- cluster_edge_betweenness(graph_object, weights = E(graph_object)$rho)
+  hot_otus &lt;- vector
+  for (community in communities(communities_object)){
+    sub_graph &lt;- induced.subgraph(graph = graph_object, 
+                                    v = community, impl = &quot;auto&quot;)
+    highest_degree_otu &lt;- V(sub_graph)[which.max(degree(sub_graph))]$name
+    hot_otus &lt;- c(hot_otus, highest_degree_otu)
+    # print(paste(&quot;Highest degree OTU was&quot;, highest_degree_otu, &quot;(degree =&quot;,  
+    #           degree(sub_graph, highest_degree_otu), &quot;):&quot;))
+  }
+  plot(communities_object, graph_object, 
+     layout = layout.fruchterman.reingold(graph_object),
+     rescaled = TRUE,
+     vertex.size = ifelse(V(graph_object) %in% hot_otus, 5, 1), 
+     vertex.label = ifelse(V(graph_object) %in% hot_otus, V(graph_object)$id, NA),
+     vertex.label.cex = 2
+     )
+  return(paste(&quot;modularity of graph = &quot;, modularity(graph_object, membership(communities_object)), sep=&quot;&quot;))
+}</code></pre>
+<pre class="r"><code># graph_hot_otus(g_union.largest_connected)</code></pre>
+<p>Deleting nodes at random:</p>
+<pre class="r"><code>remove.num &lt;- floor(gorder(g_union) / 10)
+random_remove &lt;- as.numeric(sample(gorder(g_union), size = remove.num))
+g_union.subsampled &lt;- delete.vertices(g_union, random_remove)</code></pre>
+</div>
+<div id="c." class="section level3">
+<h3>c.</h3>
+</div>
+</div>
+<div id="section-1" class="section level1">
+<h1>#2</h1>
+<p>Reading in <code>BioGrid2018</code> network, visualizing degree distribution:</p>
+<pre class="r"><code>t_bg2018 &lt;- read.table(&quot;./data/hw3/BioGrid2018_uni-2&quot;, header = TRUE, row.names = 1)
+g_bg2018 &lt;- graph_from_data_frame(t_bg2018[, 1:2], directed = FALSE)
+g_bg2018.clusters &lt;- clusters(g_bg2018)
+g_bg2018.clusters$csize</code></pre>
+<pre><code>## [1] 5960</code></pre>
+</div>
+<div id="section-2" class="section level1">
+<h1>#3</h1>
+<p>Assuming that we are meant to do this on <code>g_union</code>. Getting largest connected component of <code>g_union</code>.</p>
+<pre class="r"><code>g_union.clusters &lt;- clusters(g_union)
+g_union.clusters$no</code></pre>
+<pre><code>## [1] 185</code></pre>
+<p>We see there are <span class="math inline">\(185\)</span> clusters. There is one large cluster, which has <span class="math inline">\(1647\)</span> nodes:</p>
+<pre class="r"><code>head(sort(g_union.clusters$csize, decreasing = TRUE))</code></pre>
+<pre><code>## [1] 1647    6    5    4    4    4</code></pre>
+<p>Getting the connected component:</p>
+<pre class="r"><code>g_union.largest_connected &lt;- decompose.graph(g_union)[[1]]
+plot_dd(g_union.largest_connected)</code></pre>
+<p><img src="hw_3_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<div id="a.-1" class="section level3">
+<h3>a.</h3>
+</div>
+<div id="b.-1" class="section level3">
+<h3>b.</h3>
+<p>Randomly remove edges. We’ll first remove 10% of edges randomly:</p>
+<pre class="r"><code>remove.num &lt;- floor(gorder(g_union.largest_connected) / 10)
+random_remove &lt;- as.numeric(sample(gorder(g_union.largest_connected), size = remove.num))
+g_union.largest_connected.subsampled &lt;- delete.vertices(g_union.largest_connected, random_remove)</code></pre>
+</div>
+<div id="c.-1" class="section level3">
+<h3>c.</h3>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
