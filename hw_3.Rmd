@@ -94,16 +94,16 @@ graph_hot_otus <- function(graph_object){
 
 
 ```{r}
-graph_hot_otus(g_union.largest_connected)
+# graph_hot_otus(g_union.largest_connected)
 ```
 
 
 Deleting nodes at random:
 
 ```{r}
-remove.num <- floor(gorder(g_union.largest_connected) / 10)
-random_remove <- as.numeric(sample(gorder(g_union.largest_connected), size = remove.num))
-g_union.largest_connected.subsampled <- delete.vertices(g_union.largest_connected, random_remove)
+remove.num <- floor(gorder(g_union) / 10)
+random_remove <- as.numeric(sample(gorder(g_union), size = remove.num))
+g_union.subsampled <- delete.vertices(g_union, random_remove)
 ```
 
 
@@ -148,8 +148,6 @@ plot_dd(g_union.largest_connected)
 ### b.
 
 ```{r}
-
-score <- modularity()
 ```
 
 
