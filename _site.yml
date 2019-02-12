@@ -1,18 +1,18 @@
-name: Tipping Points of Antimicrobial Resistance
+name: BCB 570: Systems Biology
 output_dir: docs
 navbar:
   title: ''
   left:
-  - text: Project Overview
+  - text: About
     href: index.html
-  - text: Data Exploration
-    href: data_exploration.html
-  - text: Topological Data Analysis
-    href: tda.html
+  - text: Assignment 2
+    href: hw_2.html
+  - text: Assignment 3
+    href: hw_3.html
     
 output:
   html_document:
-    theme: cerulean
+    theme: lumen
     include:
       after_body: misc/footer.html
     toc: yes
