@@ -1,5 +1,5 @@
 ---
-title: 'BCB 570: Homework 2'
+title: 'BCB 570: Homework 3'
 author: "Paul Villanueva"
 date: "2/15/2019"
 output:
