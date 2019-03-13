@@ -311,13 +311,8 @@ $(document).ready(function () {
 library(igraph, warn.conflicts = FALSE)</code></pre>
 <pre><code>## Warning: package &#39;igraph&#39; was built under R version 3.5.2</code></pre>
 <pre class="r"><code>library(ggplot2, warn.conflicts = FALSE)
-library(tidyverse, warn.conflicts = FALSE)</code></pre>
-<pre><code>## Warning: package &#39;tibble&#39; was built under R version 3.5.2</code></pre>
-<pre><code>## Warning: package &#39;purrr&#39; was built under R version 3.5.2</code></pre>
-<pre><code>## Warning: package &#39;dplyr&#39; was built under R version 3.5.2</code></pre>
-<pre><code>## Warning: package &#39;stringr&#39; was built under R version 3.5.2</code></pre>
-<pre><code>## Warning: package &#39;forcats&#39; was built under R version 3.5.2</code></pre>
-<pre class="r"><code>set.seed(489)</code></pre>
+library(tidyverse, warn.conflicts = FALSE)
+set.seed(489)</code></pre>
 <div id="section" class="section level1">
 <h1>#1</h1>
 <div id="a.-plot-the-connectivity-distribution-of-k-vs.pk" class="section level2">
@@ -333,7 +328,7 @@ graph_info_df %&gt;%
   ggplot(aes(x = k_v, y = freq)) + geom_bar(stat = &quot;identity&quot;) + 
   xlim(c(0, 6)) + ylim(c(0, 1)) +  
   labs(x = &quot;k&quot;, y = &quot;P(k)&quot;, title = &quot;Connectivity distribution: k vs. p(k)&quot;) </code></pre>
-<p><img src="hw_2_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p><img src="hw_2_files/figure-html/unnamed-chunk-69-1.png" width="672" /></p>
 </div>
 <div id="b.-plot-the-distribution-of-the-clustering-coefficient-k-vs.ck" class="section level2">
 <h2>1.b. <em>Plot the distribution of the clustering coefficient, k vs. C(k)</em></h2>
@@ -356,7 +351,7 @@ head(graph_info_df)</code></pre>
     labs(x = &quot;k&quot;, y = &quot;c(k)&quot;, title = &quot;Clustering coefficient distribution: k vs. c(k)&quot;) +
     theme(plot.title = element_text(hjust = 0.5)) +
   xlim(c(0, 6))</code></pre>
-<p><img src="hw_2_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p><img src="hw_2_files/figure-html/unnamed-chunk-71-1.png" width="672" /></p>
 </div>
 </div>
 <div id="depth-first-search" class="section level1">
@@ -411,7 +406,7 @@ head(graph_info_df)</code></pre>
 <h1>#4</h1>
 <p>We can make a fully connected graph of with five vertices with <code>igraph::make_full_graph</code>.</p>
 <pre class="r"><code>plot(make_full_graph(5))</code></pre>
-<p><img src="hw_2_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p><img src="hw_2_files/figure-html/unnamed-chunk-72-1.png" width="672" /></p>
 </div>
 <div id="section-2" class="section level1">
 <h1>#5</h1>
@@ -420,7 +415,7 @@ head(graph_info_df)</code></pre>
 <p>We first read in <code>graphA.txt</code> and visualize it:</p>
 <pre class="r"><code>g_a &lt;- read_graph(&quot;./data/hw2/graphA.txt&quot;, directed = FALSE)
 plot(g_a)</code></pre>
-<p><img src="hw_2_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p><img src="hw_2_files/figure-html/unnamed-chunk-73-1.png" width="672" /></p>
 <div id="diameter-and-radius" class="section level4">
 <h4>2. <em>Diameter and radius</em></h4>
 <pre class="r"><code>diameter(g_a)</code></pre>
@@ -453,7 +448,7 @@ plot(g_a)</code></pre>
     theme(plot.title = element_text(hjust = 0.5), plot.subtitle = element_text(hjust = 0.5))
 }</code></pre>
 <pre class="r"><code>plot_dd(g_a)</code></pre>
-<p><img src="hw_2_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p><img src="hw_2_files/figure-html/unnamed-chunk-79-1.png" width="672" /></p>
 </div>
 <div id="average-shortest-path" class="section level4">
 <h4>4. <em>Average shortest path</em></h4>
@@ -607,7 +602,7 @@ plot(g_a)</code></pre>
 <p>We say a graph follows a power-law distribution if the distribution of <span class="math inline">\(P(k) \sim k^{-\lambda}\)</span> for some <span class="math inline">\(\lambda \in \mathbf{R}\)</span>. A first check to see if a graph follows a power law is to visually inspect the distribution of <span class="math inline">\(P(k)\)</span> and see if it appears to follow a power law. For example, for <span class="math inline">\(g_b\)</span>, the graph built from <code>graphB.txt</code>, the distribution of <span class="math inline">\(P(k)\)</span> is:</p>
 <pre class="r"><code>g_b &lt;- read_graph(&quot;./data/hw2/graphB.txt&quot;, directed = FALSE)
 plot_dd(g_b)</code></pre>
-<p><img src="hw_2_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<p><img src="hw_2_files/figure-html/unnamed-chunk-85-1.png" width="672" /></p>
 <p>Visual inspection shows that the distribution of <span class="math inline">\(p(k)\)</span> doesn’t follow a power law. However, to further convince ourselves that <span class="math inline">\(g_b\)</span> does not follow a power-law distribution, we can quantify how closely the degree distribution follows a power-law by using the <code>fit_power_law</code> function:</p>
 <pre class="r"><code>g_b.pl_fit &lt;- fit_power_law(degree(g_b))
 g_b.pl_fit</code></pre>
@@ -653,7 +648,7 @@ g_b.pl_fit.2</code></pre>
 <pre class="r"><code>num_vertices &lt;- vcount(g_b)
 sim_graph &lt;- barabasi.game(num_vertices, directed = FALSE)
 plot_dd(sim_graph)</code></pre>
-<p><img src="hw_2_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+<p><img src="hw_2_files/figure-html/unnamed-chunk-88-1.png" width="672" /></p>
 <p>And when we attempt to fit a power curve:</p>
 <pre class="r"><code>sim_graph.pl_fit &lt;- fit_power_law(degree(sim_graph), xmin = 1)
 sim_graph.pl_fit</code></pre>

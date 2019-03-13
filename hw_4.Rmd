@@ -1,31 +1,93 @@
 ---
-title: "hw_4"
+title: "Gene Ontology 1"
 author: "Paul Villanueva"
 date: "3/13/2019"
 output:
   html_document: default
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include = FALSE, cache = TRUE}
 knitr::opts_chunk$set(echo = TRUE)
+library(data.table)
+library(ggplot2)
+library(kableExtra)
+library(tidyverse)
 ```
 
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+Reading in the data:
+```{r read.gaf_dec }
+read.gaf <- function(file){
+  gaf_colnames <- c("DB", "DB_Object_ID", "DB_Object_Symbol", "Qualifier", "GO_ID", "DB:Reference", "Evidence Code", 
+                    "With (or) From", "Aspect", "DB_Object_Name", "DB_Object_Synonym", "DB_Object_Type", 
+                    "Taxon and Interacting taxon", "Date", "Assigned_By", "Annotation_Extension", "Gene_Product_Form_ID")
+  return(as.data.table(read.delim(file, col.names = gaf_colnames, sep = "\t", comment.char = "!", header = FALSE, stringsAsFactors = FALSE)))
+}
 ```
 
-## Including Plots
+```{r read_in_data, cache = TRUE}
+human_gaf <- read.gaf("./data/hw4/goa_human.gaf")
+mouse_gaf <- read.gaf("./data/hw4/goa_mouse.gaf")
+rat_gaf <- read.gaf("./data/hw4/goa_rat.gaf")
+pig_gaf <- read.gaf("./data/hw4/goa_pig.gaf")
 
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+gaf_list <- list(human_gaf, mouse_gaf, rat_gaf, pig_gaf)
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+```{r}
+# length(unique(human_gaf$DB_Object_Name))
+unique(mouse_gaf$DB_Object_Type)
+#unique(pig_gaf$DB_Object_Type)
+
+```
+
+
+## How many proteins are experimentally annotated?
+
+Experimental evidence codes are EXP, IDA, IPI, IMP, IGI, and IEP.
+
+
+```{r}
+count_experimentally_confirmed_genes <- function(gaf){
+  experimental_evidence_codes <- c("EXP", "IDA", "IPI", "IMP", "IGI", "IEP")
+  return(n_distinct(gaf[gaf$Evidence.Code %in% experimental_evidence_codes, "DB_Object_ID"]))
+}
+proportion_experimentally_confirmed_genes <- function(gaf){
+  experimental_evidence_codes <- c("EXP", "IDA", "IPI", "IMP", "IGI", "IEP")
+  return(n_distinct(gaf[gaf$Evidence.Code %in% experimental_evidence_codes, "DB_Object_ID"]) / 
+           n_distinct(gaf$DB_Object_ID))
+}
+```
+
+## Which species leads in beng experimentally annotated?
+
+```{r}
+counts <- as.numeric(unlist(lapply(gaf_list, count_experimentally_confirmed_genes)))
+proportion <- as.numeric(unlist(lapply(gaf_list, proportion_experimentally_confirmed_genes)))
+organism <- c("Human", "Mouse", "Rat", "Pig")
+experimentally_confirmed_genes_info <- data.frame(organism, counts, proportion)
+```
+
+#### The species with the most experimentally annotated proteins
+
+```{r}
+experimentally_confirmed_genes_info %>% 
+  ggplot(aes(x = reorder(organism, -counts), y = counts, fill = organism)) + 
+    geom_bar(stat = "identity") + geom_text(aes(label= ..counts.. ), vjust = -1) + 
+    labs(x = element_blank(), y = element_blank(), title = "Counts of confirmed genes by organism") + 
+    theme_bw() + 
+    theme(plot.title = element_text(hjust = 0.5)) + 
+    ylim(0, 15000)
+```
+
+
+#### The species with the highest fraction of experimentally annotated proteins
+
+```{r}
+experimentally_confirmed_genes_info %>% 
+  ggplot(aes(x = reorder(organism, -proportion), y = proportion, fill = organism)) + 
+    geom_bar(stat = "identity") +
+    labs(x = element_blank(), y = element_blank(), title = "Proportions of confirmed genes by organism") + 
+    theme_bw() + 
+    theme(plot.title = element_text(hjust = 0.5)) + ylim(0, 1) +
+    geom_text(aes(label = sprintf("%0.4f", ..proportion..)), vjust = -1)
+```
