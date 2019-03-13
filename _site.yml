@@ -9,6 +9,8 @@ navbar:
     href: hw_2.html
   - text: Assignment 3
     href: hw_3.html
+  - text: Assignment 4
+    href: hw_4.html
     
 output:
   html_document:
