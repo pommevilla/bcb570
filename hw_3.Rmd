@@ -3,7 +3,7 @@ title: 'BCB 570: Homework 3'
 author: "Paul Villanueva"
 date: "2/15/2019"
 output:
-  pdf_document: default
+  html_document: default
 ---
 
 ```{r setup, message = FALSE, include = FALSE}
