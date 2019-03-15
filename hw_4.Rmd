@@ -9,12 +9,14 @@ output:
 ```{r setup, include = FALSE, cache = TRUE}
 knitr::opts_chunk$set(echo = TRUE)
 library(data.table)
+library(dplyr)
 library(ggplot2)
 library(kableExtra)
 library(tidyverse)
 ```
 
-Reading in the data:
+We begin by defining the `read.gaf` function to help us read in the data. The data is in `gaf` format. We use `read.delim` instead of `read.table` because using `read.table(..., sep = '\t')` produced some parsing errors. 
+
 ```{r read.gaf_dec }
 read.gaf <- function(file){
   gaf_colnames <- c("DB", "DB_Object_ID", "DB_Object_Symbol", "Qualifier", "GO_ID", "DB:Reference", "Evidence Code", 
@@ -24,33 +26,69 @@ read.gaf <- function(file){
 }
 ```
 
+We then read in the gene annotation information for humans, mice, rats, and pigs:
+
 ```{r read_in_data, cache = TRUE}
-human_gaf <- read.gaf("./data/hw4/goa_human.gaf")
-mouse_gaf <- read.gaf("./data/hw4/goa_mouse.gaf")
-rat_gaf <- read.gaf("./data/hw4/goa_rat.gaf")
-pig_gaf <- read.gaf("./data/hw4/goa_pig.gaf")
+human.gaf <- read.gaf("./data/hw4/goa_human.gaf")
+mouse.gaf <- read.gaf("./data/hw4/goa_mouse.gaf")
+rat.gaf <- read.gaf("./data/hw4/goa_rat.gaf")
+pig.gaf <- read.gaf("./data/hw4/goa_pig.gaf")
 
-gaf_list <- list(human_gaf, mouse_gaf, rat_gaf, pig_gaf)
+gaf_list <- list(human.gaf, mouse.gaf, rat.gaf, pig.gaf)
 ```
 
-```{r}
-# length(unique(human_gaf$DB_Object_Name))
-unique(mouse_gaf$DB_Object_Type)
-#unique(pig_gaf$DB_Object_Type)
+## How many proteins are experimentally annotated for each species?
 
-```
+We say that a protein is experimentally verified if one of the experimental evidence codes appears in the  `Evidence.Code` column for any of its forms. Experimental evidence codes are EXP, IDA, IPI, IMP, IGI, and IEP. The `count_experimentally_confirmed_genes` function counts the number of experimentally confirmed genes found in a `gaf` table:
 
-
-## How many proteins are experimentally annotated?
-
-Experimental evidence codes are EXP, IDA, IPI, IMP, IGI, and IEP.
-
-
-```{r}
+```{r count_confirmed.def}
 count_experimentally_confirmed_genes <- function(gaf){
   experimental_evidence_codes <- c("EXP", "IDA", "IPI", "IMP", "IGI", "IEP")
   return(n_distinct(gaf[gaf$Evidence.Code %in% experimental_evidence_codes, "DB_Object_ID"]))
 }
+```
+
+We use the `count_experimentally_confirmed_genes` function to get confirmed counts for each species:
+
+```{r get_counts}
+counts <- as.numeric(unlist(lapply(gaf_list, count_experimentally_confirmed_genes)))
+organism <- c("Human", "Mouse", "Rat", "Pig")
+experimentally_confirmed_genes_info <- data.frame(Organism = organism, Counts = counts)
+```
+
+And the counts per species:
+
+```{r kable}
+experimentally_confirmed_genes_info %>% 
+  kable(digits = 4) %>% kable_styling(bootstrap_options = "striped", full_width = FALSE) 
+```
+
+## Which species leads in being experimentally annotated?
+
+To answer this question, we consider separately number of genes experimentally confirmed and the proportion of genes experimentally confirmed.
+
+
+
+#### The species with the most experimentally annotated proteins
+
+We generated this data in the previous question and saw that humans lead have the high count of experimentally confirmed genes. We visualize that here.
+
+```{r confirmed_counts.plot}
+experimentally_confirmed_genes_info %>% 
+  ggplot(aes(x = reorder(organism, -counts), y = counts, fill = organism)) + 
+    geom_bar(stat = "identity") + geom_text(aes(label= ..counts.. ), vjust = -1) + 
+    labs(x = element_blank(), y = element_blank(), title = "Counts of confirmed genes by organism") + 
+    theme_bw() + 
+    theme(plot.title = element_text(hjust = 0.5), legend.position = "none") + 
+    ylim(0, 15000)
+```
+
+
+#### The species with the highest fraction of experimentally annotated proteins
+
+We define the `proportion_experimentally_confirmed_genes` function to calculate the desired quantity.
+
+```{r proportion_confirmed.def}
 proportion_experimentally_confirmed_genes <- function(gaf){
   experimental_evidence_codes <- c("EXP", "IDA", "IPI", "IMP", "IGI", "IEP")
   return(n_distinct(gaf[gaf$Evidence.Code %in% experimental_evidence_codes, "DB_Object_ID"]) / 
@@ -58,36 +96,21 @@ proportion_experimentally_confirmed_genes <- function(gaf){
 }
 ```
 
-## Which species leads in beng experimentally annotated?
+We then use this function to calculate the proportion of confirmed genes by organism:
 
-```{r}
-counts <- as.numeric(unlist(lapply(gaf_list, count_experimentally_confirmed_genes)))
+```{r get_proportion}
 proportion <- as.numeric(unlist(lapply(gaf_list, proportion_experimentally_confirmed_genes)))
-organism <- c("Human", "Mouse", "Rat", "Pig")
-experimentally_confirmed_genes_info <- data.frame(organism, counts, proportion)
+experimentally_confirmed_genes_info$Proportion <- proportion
 ```
 
-#### The species with the most experimentally annotated proteins
+We see in the following plot that humans also lead in the the proportion of confirmed genes.
 
-```{r}
-experimentally_confirmed_genes_info %>% 
-  ggplot(aes(x = reorder(organism, -counts), y = counts, fill = organism)) + 
-    geom_bar(stat = "identity") + geom_text(aes(label= ..counts.. ), vjust = -1) + 
-    labs(x = element_blank(), y = element_blank(), title = "Counts of confirmed genes by organism") + 
-    theme_bw() + 
-    theme(plot.title = element_text(hjust = 0.5)) + 
-    ylim(0, 15000)
-```
-
-
-#### The species with the highest fraction of experimentally annotated proteins
-
-```{r}
+```{r proportion_confirmed.plot}
 experimentally_confirmed_genes_info %>% 
   ggplot(aes(x = reorder(organism, -proportion), y = proportion, fill = organism)) + 
     geom_bar(stat = "identity") +
-    labs(x = element_blank(), y = element_blank(), title = "Proportions of confirmed genes by organism") + 
+    labs(x = element_blank(), y = element_blank(), title = "Proportion of confirmed genes by organism") + 
     theme_bw() + 
-    theme(plot.title = element_text(hjust = 0.5)) + ylim(0, 1) +
+    theme(plot.title = element_text(hjust = 0.5), legend.position = "none") + ylim(0, 1) +
     geom_text(aes(label = sprintf("%0.4f", ..proportion..)), vjust = -1)
 ```

@@ -23,6 +23,7 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -310,63 +311,116 @@ $(document).ready(function () {
 </div>
 
 
-<p>Reading in the data:</p>
+<p>We begin by defining the <code>read.gaf</code> function to help us read in the data. The data is in <code>gaf</code> format. We use <code>read.delim</code> instead of <code>read.table</code> because using <code>read.table(..., sep = '\t')</code> produced some parsing errors.</p>
 <pre class="r"><code>read.gaf &lt;- function(file){
   gaf_colnames &lt;- c(&quot;DB&quot;, &quot;DB_Object_ID&quot;, &quot;DB_Object_Symbol&quot;, &quot;Qualifier&quot;, &quot;GO_ID&quot;, &quot;DB:Reference&quot;, &quot;Evidence Code&quot;, 
                     &quot;With (or) From&quot;, &quot;Aspect&quot;, &quot;DB_Object_Name&quot;, &quot;DB_Object_Synonym&quot;, &quot;DB_Object_Type&quot;, 
                     &quot;Taxon and Interacting taxon&quot;, &quot;Date&quot;, &quot;Assigned_By&quot;, &quot;Annotation_Extension&quot;, &quot;Gene_Product_Form_ID&quot;)
   return(as.data.table(read.delim(file, col.names = gaf_colnames, sep = &quot;\t&quot;, comment.char = &quot;!&quot;, header = FALSE, stringsAsFactors = FALSE)))
 }</code></pre>
-<pre class="r"><code>human_gaf &lt;- read.gaf(&quot;./data/hw4/goa_human.gaf&quot;)
-mouse_gaf &lt;- read.gaf(&quot;./data/hw4/goa_mouse.gaf&quot;)
-rat_gaf &lt;- read.gaf(&quot;./data/hw4/goa_rat.gaf&quot;)
-pig_gaf &lt;- read.gaf(&quot;./data/hw4/goa_pig.gaf&quot;)
+<p>We then read in the gene annotation information for humans, mice, rats, and pigs:</p>
+<pre class="r"><code>human.gaf &lt;- read.gaf(&quot;./data/hw4/goa_human.gaf&quot;)
+mouse.gaf &lt;- read.gaf(&quot;./data/hw4/goa_mouse.gaf&quot;)
+rat.gaf &lt;- read.gaf(&quot;./data/hw4/goa_rat.gaf&quot;)
+pig.gaf &lt;- read.gaf(&quot;./data/hw4/goa_pig.gaf&quot;)
 
-gaf_list &lt;- list(human_gaf, mouse_gaf, rat_gaf, pig_gaf)</code></pre>
-<pre class="r"><code># length(unique(human_gaf$DB_Object_Name))
-unique(mouse_gaf$DB_Object_Type)</code></pre>
-<pre><code>## [1] &quot;protein&quot;</code></pre>
-<pre class="r"><code>#unique(pig_gaf$DB_Object_Type)</code></pre>
-<div id="how-many-proteins-are-experimentally-annotated" class="section level2">
-<h2>How many proteins are experimentally annotated?</h2>
-<p>Experimental evidence codes are EXP, IDA, IPI, IMP, IGI, and IEP.</p>
+gaf_list &lt;- list(human.gaf, mouse.gaf, rat.gaf, pig.gaf)</code></pre>
+<div id="how-many-proteins-are-experimentally-annotated-for-each-species" class="section level2">
+<h2>How many proteins are experimentally annotated for each species?</h2>
+<p>We say that a protein is experimentally verified if one of the experimental evidence codes appears in the <code>Evidence.Code</code> column for any of its forms. Experimental evidence codes are EXP, IDA, IPI, IMP, IGI, and IEP. The <code>count_experimentally_confirmed_genes</code> function counts the number of experimentally confirmed genes found in a <code>gaf</code> table:</p>
 <pre class="r"><code>count_experimentally_confirmed_genes &lt;- function(gaf){
   experimental_evidence_codes &lt;- c(&quot;EXP&quot;, &quot;IDA&quot;, &quot;IPI&quot;, &quot;IMP&quot;, &quot;IGI&quot;, &quot;IEP&quot;)
   return(n_distinct(gaf[gaf$Evidence.Code %in% experimental_evidence_codes, &quot;DB_Object_ID&quot;]))
-}
-proportion_experimentally_confirmed_genes &lt;- function(gaf){
-  experimental_evidence_codes &lt;- c(&quot;EXP&quot;, &quot;IDA&quot;, &quot;IPI&quot;, &quot;IMP&quot;, &quot;IGI&quot;, &quot;IEP&quot;)
-  return(n_distinct(gaf[gaf$Evidence.Code %in% experimental_evidence_codes, &quot;DB_Object_ID&quot;]) / 
-           n_distinct(gaf$DB_Object_ID))
 }</code></pre>
-</div>
-<div id="which-species-leads-in-beng-experimentally-annotated" class="section level2">
-<h2>Which species leads in beng experimentally annotated?</h2>
+<p>We use the <code>count_experimentally_confirmed_genes</code> function to get confirmed counts for each species:</p>
 <pre class="r"><code>counts &lt;- as.numeric(unlist(lapply(gaf_list, count_experimentally_confirmed_genes)))
-proportion &lt;- as.numeric(unlist(lapply(gaf_list, proportion_experimentally_confirmed_genes)))
 organism &lt;- c(&quot;Human&quot;, &quot;Mouse&quot;, &quot;Rat&quot;, &quot;Pig&quot;)
-experimentally_confirmed_genes_info &lt;- data.frame(organism, counts, proportion)</code></pre>
+experimentally_confirmed_genes_info &lt;- data.frame(Organism = organism, Counts = counts)</code></pre>
+<p>And the counts per species:</p>
+<pre class="r"><code>experimentally_confirmed_genes_info %&gt;% 
+  kable(digits = 4) %&gt;% kable_styling(bootstrap_options = &quot;striped&quot;, full_width = FALSE) </code></pre>
+<table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Organism
+</th>
+<th style="text-align:right;">
+Counts
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Human
+</td>
+<td style="text-align:right;">
+13787
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Mouse
+</td>
+<td style="text-align:right;">
+10946
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rat
+</td>
+<td style="text-align:right;">
+5779
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Pig
+</td>
+<td style="text-align:right;">
+293
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="which-species-leads-in-being-experimentally-annotated" class="section level2">
+<h2>Which species leads in being experimentally annotated?</h2>
+<p>To answer this question, we consider separately number of genes experimentally confirmed and the proportion of genes experimentally confirmed.</p>
 <div id="the-species-with-the-most-experimentally-annotated-proteins" class="section level4">
 <h4>The species with the most experimentally annotated proteins</h4>
+<p>We generated this data in the previous question and saw that humans lead have the high count of experimentally confirmed genes. We visualize that here.</p>
 <pre class="r"><code>experimentally_confirmed_genes_info %&gt;% 
   ggplot(aes(x = reorder(organism, -counts), y = counts, fill = organism)) + 
     geom_bar(stat = &quot;identity&quot;) + geom_text(aes(label= ..counts.. ), vjust = -1) + 
     labs(x = element_blank(), y = element_blank(), title = &quot;Counts of confirmed genes by organism&quot;) + 
     theme_bw() + 
-    theme(plot.title = element_text(hjust = 0.5)) + 
+    theme(plot.title = element_text(hjust = 0.5), legend.position = &quot;none&quot;) + 
     ylim(0, 15000)</code></pre>
-<p><img src="hw_4_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p><img src="hw_4_files/figure-html/confirmed_counts.plot-1.png" width="672" /></p>
 </div>
 <div id="the-species-with-the-highest-fraction-of-experimentally-annotated-proteins" class="section level4">
 <h4>The species with the highest fraction of experimentally annotated proteins</h4>
+<p>We define the <code>proportion_experimentally_confirmed_genes</code> function to calculate the desired quantity.</p>
+<pre class="r"><code>proportion_experimentally_confirmed_genes &lt;- function(gaf){
+  experimental_evidence_codes &lt;- c(&quot;EXP&quot;, &quot;IDA&quot;, &quot;IPI&quot;, &quot;IMP&quot;, &quot;IGI&quot;, &quot;IEP&quot;)
+  return(n_distinct(gaf[gaf$Evidence.Code %in% experimental_evidence_codes, &quot;DB_Object_ID&quot;]) / 
+           n_distinct(gaf$DB_Object_ID))
+}</code></pre>
+<p>We then use this function to calculate the proportion of confirmed genes by organism:</p>
+<pre class="r"><code>proportion &lt;- as.numeric(unlist(lapply(gaf_list, proportion_experimentally_confirmed_genes)))
+experimentally_confirmed_genes_info$Proportion &lt;- proportion</code></pre>
+<p>We see in the accompanying plot that humans also lead in the the proportion of confirmed genes.</p>
 <pre class="r"><code>experimentally_confirmed_genes_info %&gt;% 
   ggplot(aes(x = reorder(organism, -proportion), y = proportion, fill = organism)) + 
     geom_bar(stat = &quot;identity&quot;) +
-    labs(x = element_blank(), y = element_blank(), title = &quot;Proportions of confirmed genes by organism&quot;) + 
+    labs(x = element_blank(), y = element_blank(), title = &quot;Proportion of confirmed genes by organism&quot;) + 
     theme_bw() + 
-    theme(plot.title = element_text(hjust = 0.5)) + ylim(0, 1) +
+    theme(plot.title = element_text(hjust = 0.5), legend.position = &quot;none&quot;) + ylim(0, 1) +
     geom_text(aes(label = sprintf(&quot;%0.4f&quot;, ..proportion..)), vjust = -1)</code></pre>
-<p><img src="hw_4_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p><img src="hw_4_files/figure-html/proportion_confirmed.plot-1.png" width="672" /></p>
 </div>
 </div>
 
