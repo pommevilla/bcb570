@@ -412,7 +412,7 @@ Pig
 <p>We then use this function to calculate the proportion of confirmed genes by organism:</p>
 <pre class="r"><code>proportion &lt;- as.numeric(unlist(lapply(gaf_list, proportion_experimentally_confirmed_genes)))
 experimentally_confirmed_genes_info$Proportion &lt;- proportion</code></pre>
-<p>We see in the accompanying plot that humans also lead in the the proportion of confirmed genes.</p>
+<p>We see in the following plot that humans also lead in the the proportion of confirmed genes.</p>
 <pre class="r"><code>experimentally_confirmed_genes_info %&gt;% 
   ggplot(aes(x = reorder(organism, -proportion), y = proportion, fill = organism)) + 
     geom_bar(stat = &quot;identity&quot;) +
