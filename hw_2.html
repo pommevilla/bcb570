@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Paul Villanueva" />
+
+
+<title>BCB 570: Homework 2</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">About</a>
+</li>
+<li>
+  <a href="hw_2.html">Assignment 2</a>
+</li>
+<li>
+  <a href="hw_3.html">Assignment 3</a>
+</li>
+<li>
+  <a href="hw_4.html">Assignment 4</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">BCB 570: Homework 2</h1>
+<h4 class="author">Paul Villanueva</h4>
+<h4 class="date">1/31/2019</h4>
+
+</div>
+
+
+<pre class="r"><code>knitr::opts_chunk$set(echo = TRUE, cache = TRUE, message = FALSE)
+library(igraph, warn.conflicts = FALSE)</code></pre>
+<pre><code>## Warning: package &#39;igraph&#39; was built under R version 3.5.2</code></pre>
+<pre class="r"><code>library(ggplot2, warn.conflicts = FALSE)
+library(tidyverse, warn.conflicts = FALSE)
+set.seed(489)</code></pre>
+<div id="section" class="section level1">
+<h1>#1</h1>
+<div id="a.-plot-the-connectivity-distribution-of-k-vs.pk" class="section level2">
+<h2>1.a. <em>Plot the connectivity distribution of k vs. P(k)</em></h2>
+<p>Since we have to enter the information manually, we have to do some data wrangling before plotting the degree distribution (alternatively, we could have just written a text file with an adjaceny matrix or edge list, but oh well):</p>
+<pre class="r"><code>v &lt;- c(&quot;r&quot;, &quot;s&quot;, &quot;t&quot;, &quot;u&quot;, &quot;v&quot;, &quot;w&quot;, &quot;x&quot;, &quot;y&quot;, &quot;z&quot;)
+k_v &lt;- as.numeric(c(4, 2, 3, 2, 4, 4, 4, 4, 5))
+graph_info_df &lt;- data.frame(v, k_v)
+graph_info_df %&gt;% 
+  group_by(k_v) %&gt;% 
+  summarise(n = n()) %&gt;% 
+  mutate(freq = n / sum(n)) %&gt;% 
+  ggplot(aes(x = k_v, y = freq)) + geom_bar(stat = &quot;identity&quot;) + 
+  xlim(c(0, 6)) + ylim(c(0, 1)) +  
+  labs(x = &quot;k&quot;, y = &quot;P(k)&quot;, title = &quot;Connectivity distribution: k vs. p(k)&quot;) </code></pre>
+<p><img src="hw_2_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+</div>
+<div id="b.-plot-the-distribution-of-the-clustering-coefficient-k-vs.ck" class="section level2">
+<h2>1.b. <em>Plot the distribution of the clustering coefficient, k vs. C(k)</em></h2>
+<p>We first enter the clustering coefficients for each of the vertices of the graph and append it to <code>graph_info_df</code>:</p>
+<pre class="r"><code>c_v &lt;- as.numeric(c(1/2, 1, 2/3, 1, 1/2, 1/2, 1/2, 2/3, 2/5))
+graph_info_df &lt;- data.frame(graph_info_df, c_v)
+head(graph_info_df)</code></pre>
+<pre><code>##   v k_v       c_v
+## 1 r   4 0.5000000
+## 2 s   2 1.0000000
+## 3 t   3 0.6666667
+## 4 u   2 1.0000000
+## 5 v   4 0.5000000
+## 6 w   4 0.5000000</code></pre>
+<p>We then calculate the average values of C(k) for each k:</p>
+<pre class="r"><code>graph_info_df %&gt;% 
+  group_by(k_v) %&gt;% 
+  summarise_at(&quot;c_v&quot;, mean) %&gt;% 
+  ggplot(aes(x = k_v, y = c_v)) + geom_bar(stat = &quot;identity&quot;) +
+    labs(x = &quot;k&quot;, y = &quot;c(k)&quot;, title = &quot;Clustering coefficient distribution: k vs. c(k)&quot;) +
+    theme(plot.title = element_text(hjust = 0.5)) +
+  xlim(c(0, 6))</code></pre>
+<p><img src="hw_2_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+</div>
+</div>
+<div id="depth-first-search" class="section level1">
+<h1>#2 <em>Depth-first search</em></h1>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th>Vertex w</th>
+<th>Vertex s</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Lexicographic</td>
+<td><span class="math inline">\(w, u, v, y, x, r, s, t, z\)</span></td>
+<td><span class="math inline">\(s, r, t, z, v, u, w, x, y\)</span></td>
+</tr>
+<tr class="even">
+<td>Reverse lexicographic</td>
+<td><span class="math inline">\(w, y, z, x, r, t, s, v, u\)</span></td>
+<td><span class="math inline">\(s, t, z, y, x, w, v, u, r\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="breadth-first-search" class="section level1">
+<h1>#3 <em>Breadth-first search</em></h1>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th>Vertex w</th>
+<th>Vertex s</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Lexicographic</td>
+<td><span class="math inline">\(w, u, v, x, y, z, r, t, s\)</span></td>
+<td><span class="math inline">\(s, r, t, x, z, w, y, v, u\)</span></td>
+</tr>
+<tr class="even">
+<td>Reverse lexicographic</td>
+<td><span class="math inline">\(w, y, x, v, u, z, r, t, s\)</span></td>
+<td><span class="math inline">\(s, t, r, z, x, y, v, w, u\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="section-1" class="section level1">
+<h1>#4</h1>
+<p>We can make a fully connected graph of with five vertices with <code>igraph::make_full_graph</code>.</p>
+<pre class="r"><code>plot(make_full_graph(5))</code></pre>
+<p><img src="hw_2_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+</div>
+<div id="section-2" class="section level1">
+<h1>#5</h1>
+<div id="graph-a" class="section level3">
+<h3><em>Graph A</em></h3>
+<p>We first read in <code>graphA.txt</code> and visualize it:</p>
+<pre class="r"><code>g_a &lt;- read_graph(&quot;./data/hw2/graphA.txt&quot;, directed = FALSE)
+plot(g_a)</code></pre>
+<p><img src="hw_2_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
+<div id="diameter-and-radius" class="section level4">
+<h4>2. <em>Diameter and radius</em></h4>
+<pre class="r"><code>diameter(g_a)</code></pre>
+<pre><code>## [1] 10</code></pre>
+<pre class="r"><code>radius(g_a)</code></pre>
+<pre><code>## [1] 6</code></pre>
+</div>
+<div id="average-and-global-clustering-coefficients" class="section level4">
+<h4>3. <em>Average and global clustering coefficients</em></h4>
+<p>The <strong>average clustering coefficient</strong> <span class="math inline">\(C_a(g)\)</span> of graph <span class="math inline">\(g\)</span> is calculated by first calculating the clustering coefficient of each vertex in a graph, then taking the mean of all of these values. In other words,</p>
+<p><span class="math display">\[ C_a(g) = \frac{1}{|V|}\sum_{v \in V} C(v)\]</span></p>
+<p>where <span class="math inline">\(C(v)\)</span> is the local clustering coefficient of a vertex <span class="math inline">\(v\)</span>. We can calculate this via <code>igraph</code>’s <code>transitivity</code> function with the <code>type</code> argument set to <code>average</code>:</p>
+<pre class="r"><code>transitivity(g_a, type = &quot;average&quot;)</code></pre>
+<pre><code>## [1] 0.006</code></pre>
+<p>Because the clustering coefficient ranges from 0 to 1, an average clustering coefficient of <span class="math inline">\(0.006\)</span> indicates that, in general, the nodes of <code>g_a</code> are not well connected.</p>
+<p>On the other hand, the <strong>global clustering coefficient</strong> <span class="math inline">\(C_g(g)\)</span> of a graph <span class="math inline">\(g\)</span> is based on triples of nodes in a graph. We call a group of three nodes an <strong>open triple</strong> if they are connected by only two edges, and we call the three nodes a <strong>closed triple</strong> if they are connected by three edges. Then, the global clustering coefficient is the ratio of the number of closed triples to number of closed and open triples. In other words,</p>
+<p><span class="math display">\[ C_g(g) = \frac{\text{number of closed triples}}{\text{number of closed triples + number of open triples}}\]</span></p>
+<p>The value of the <span class="math inline">\(C_g\)</span> takes on values between 0 and 1, with higher values indicating that the graph is more densely connected and lower values indicating the opposite. We can calculate this via <code>igraph</code>’s <code>transitivity</code> function with the <code>type</code> argument set to <code>global</code>:</p>
+<pre class="r"><code>transitivity(g_a, type = &quot;global&quot;)</code></pre>
+<pre><code>## [1] 0.01052632</code></pre>
+<p>This again indicates that <code>g_a</code> is not well-connected and agrees with the average clustering coefficient. It does have a higher value than the average clustering coefficient; this is due to the fact that <span class="math inline">\(C_g\)</span> only considers nodes that are sufficiently connected and thus places more weight on the more tightly connected nodes.</p>
+<p>Just for completeness, we’ll visualize the degree distribution of <code>g_a</code>. We first make a helper function:</p>
+<pre class="r"><code>plot_dd &lt;- function(g){
+  g.dd &lt;- data.frame(0:(length(degree_distribution(g)) - 1), 
+                     degree_distribution(g, cumulative = FALSE))
+  colnames(g.dd) &lt;-c(&quot;k&quot;, &quot;p_k&quot;)
+  ggplot(g.dd, aes(x = k, y = p_k)) + geom_bar(stat = &quot;identity&quot;) +
+    labs(x = &quot;k&quot;, y = &quot;p(k)&quot;, title = &quot;Degree distribution: k vs. p(k)&quot;, 
+         subtitle = paste(&quot;Graph:&quot;, deparse(substitute(g)))) +
+    theme(plot.title = element_text(hjust = 0.5), plot.subtitle = element_text(hjust = 0.5))
+}</code></pre>
+<pre class="r"><code>plot_dd(g_a)</code></pre>
+<p><img src="hw_2_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
+</div>
+<div id="average-shortest-path" class="section level4">
+<h4>4. <em>Average shortest path</em></h4>
+<p>The <code>mean_distance</code> function will give us this value:</p>
+<pre class="r"><code>mean_distance(g_a, directed = FALSE)</code></pre>
+<pre><code>## [1] 5.061616</code></pre>
+</div>
+<div id="central-nodes" class="section level4">
+<h4>5. <em>Central nodes</em></h4>
+<p>The <em>centrality</em> of a node is a measure of its importance to a graph. There are different ways to measure centrality. One common measure of centrality is <em>degree centrality</em>, which counts the number of connections a node has. There is only one measure of degree centrality for an undirected graph as the edges have no notion of direction. However, in a directed graph, we have an <em>in-degree centrality</em> and an <em>out-degree centrality</em>. High measures of degree centrality indicate that the node interacts with many other nodes, implying that the node is somehow important to the structure of the graph.</p>
+<p>For <code>g_a</code>, the node with the highest degree centrality has degree 6:</p>
+<pre class="r"><code>max(centr_degree(g_a)$res)</code></pre>
+<pre><code>## [1] 6</code></pre>
+<p>And that node is node <code>72</code>:</p>
+<pre class="r"><code>which(centr_degree(g_a)$res == max(centr_degree(g_a)$res))</code></pre>
+<pre><code>## [1] 72</code></pre>
+<p>Another measure of centrality is <strong>betweenness centrality</strong>, which measures the number of shortest paths the node appears on. This captures the notion that although the node may not be <em>directly</em> acting on a bunch of nodes, it is still a node that is involved in processes. For example, in finding driving directions, this might be a bridge: it is likely not connected to a lot of streets, but it must be traversed in order to cross a river.</p>
+<p>For <code>g_a</code>, the node with the highest betweenness centrality has betweenness 1307.051:</p>
+<pre class="r"><code>max(centr_betw(g_a, directed = FALSE)$res)</code></pre>
+<pre><code>## [1] 1307.051</code></pre>
+<p>And that node is again <code>72</code>:</p>
+<pre class="r"><code>which(centr_betw(g_a, directed = FALSE)$res == max(centr_betw(g_a, directed = FALSE)$res))</code></pre>
+<pre><code>## [1] 72</code></pre>
+<p>These metrics are summarized in the below table:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Metric</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Diameter</td>
+<td><span class="math inline">\(10\)</span></td>
+</tr>
+<tr class="even">
+<td>Radius</td>
+<td><span class="math inline">\(6\)</span></td>
+</tr>
+<tr class="odd">
+<td>Average Clustering Coefficient</td>
+<td><span class="math inline">\(0.006\)</span></td>
+</tr>
+<tr class="even">
+<td>Global clustering coefficient</td>
+<td><span class="math inline">\(0.011\)</span></td>
+</tr>
+<tr class="odd">
+<td>Average shortest path length</td>
+<td><span class="math inline">\(5.062\)</span></td>
+</tr>
+<tr class="even">
+<td>Highest degree centrality node (value)</td>
+<td><span class="math inline">\(72 (6)\)</span></td>
+</tr>
+<tr class="odd">
+<td>Highest betweenness centrality node (value)</td>
+<td><span class="math inline">\(72 (1307.051)\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>For the remaining graphs, the results are summarized in a table without showing the calculations.</p>
+</div>
+</div>
+<div id="graph-b" class="section level3">
+<h3><em>Graph B</em></h3>
+<table>
+<thead>
+<tr class="header">
+<th>Metric</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Diameter</td>
+<td><span class="math inline">\(3\)</span></td>
+</tr>
+<tr class="even">
+<td>Radius</td>
+<td><span class="math inline">\(2\)</span></td>
+</tr>
+<tr class="odd">
+<td>Average Clustering Coefficient</td>
+<td><span class="math inline">\(0.392\)</span></td>
+</tr>
+<tr class="even">
+<td>Global clustering coefficient</td>
+<td><span class="math inline">\(0.240\)</span></td>
+</tr>
+<tr class="odd">
+<td>Average shortest path length</td>
+<td><span class="math inline">\(1.861\)</span></td>
+</tr>
+<tr class="even">
+<td>Highest degree centrality node (value)</td>
+<td><span class="math inline">\(10, 44, 48 (67)\)</span></td>
+</tr>
+<tr class="odd">
+<td>Highest betweenness centrality node (value)</td>
+<td><span class="math inline">\(10 (457.6314)\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="graph-c" class="section level3">
+<h3><em>Graph C</em></h3>
+<table>
+<thead>
+<tr class="header">
+<th>Metric</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Diameter</td>
+<td><span class="math inline">\(12\)</span></td>
+</tr>
+<tr class="even">
+<td>Radius</td>
+<td><span class="math inline">\(1\)</span></td>
+</tr>
+<tr class="odd">
+<td>Average Clustering Coefficient</td>
+<td><span class="math inline">\(0.0142\)</span></td>
+</tr>
+<tr class="even">
+<td>Global clustering coefficient</td>
+<td><span class="math inline">\(0.0080\)</span></td>
+</tr>
+<tr class="odd">
+<td>Average shortest path length</td>
+<td><span class="math inline">\(4.891\)</span></td>
+</tr>
+<tr class="even">
+<td>Highest degree centrality node (value)</td>
+<td><span class="math inline">\(33 (15)\)</span></td>
+</tr>
+<tr class="odd">
+<td>Highest betweenness centrality node (value)</td>
+<td><span class="math inline">\(83 (4364.713)\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="section-3" class="section level1">
+<h1>#6</h1>
+<p>We say a graph follows a power-law distribution if the distribution of <span class="math inline">\(P(k) \sim k^{-\lambda}\)</span> for some <span class="math inline">\(\lambda \in \mathbf{R}\)</span>. A first check to see if a graph follows a power law is to visually inspect the distribution of <span class="math inline">\(P(k)\)</span> and see if it appears to follow a power law. For example, for <span class="math inline">\(g_b\)</span>, the graph built from <code>graphB.txt</code>, the distribution of <span class="math inline">\(P(k)\)</span> is:</p>
+<pre class="r"><code>g_b &lt;- read_graph(&quot;./data/hw2/graphB.txt&quot;, directed = FALSE)
+plot_dd(g_b)</code></pre>
+<p><img src="hw_2_files/figure-html/unnamed-chunk-35-1.png" width="672" /></p>
+<p>Visual inspection shows that the distribution of <span class="math inline">\(p(k)\)</span> doesn’t follow a power law. However, to further convince ourselves that <span class="math inline">\(g_b\)</span> does not follow a power-law distribution, we can quantify how closely the degree distribution follows a power-law by using the <code>fit_power_law</code> function:</p>
+<pre class="r"><code>g_b.pl_fit &lt;- fit_power_law(degree(g_b))
+g_b.pl_fit</code></pre>
+<pre><code>## $continuous
+## [1] FALSE
+## 
+## $alpha
+## [1] 3.346749
+## 
+## $xmin
+## [1] 11
+## 
+## $logLik
+## [1] -225.5056
+## 
+## $KS.stat
+## [1] 0.1045514
+## 
+## $KS.p
+## [1] 0.3691128</code></pre>
+<p>Here, <span class="math inline">\(\alpha\)</span> is the proposed value for <span class="math inline">\(\lambda\)</span> for a power-low distribution. <code>KS.p</code> is the <span class="math inline">\(p\)</span>-value for the Kolmogorov-Smirnov (KS) test - small <span class="math inline">\(p\)</span>-values reject the hypothesis that the observed data could have been derived from a power-law distribution. Since the <code>KS.p</code> is relatively high, this would lead us to think that <code>g_b</code> follows a power-law distribution. However, note <code>xmin</code>, which is the lower bound for fitting the power-law. In other words, <code>fit_power_law</code> is only fitting the curve after <span class="math inline">\(k = 11\)</span>. If we change <code>xmin</code> to encapsulate all the observed data, we have different results:</p>
+<pre class="r"><code>g_b.pl_fit.2 &lt;- fit_power_law(degree(g_b), xmin = 5)
+g_b.pl_fit.2</code></pre>
+<pre><code>## $continuous
+## [1] FALSE
+## 
+## $alpha
+## [1] 1.885427
+## 
+## $xmin
+## [1] 5
+## 
+## $logLik
+## [1] -376.1141
+## 
+## $KS.stat
+## [1] 0.3391869
+## 
+## $KS.p
+## [1] 2.032867e-10</code></pre>
+<p>So we see that forcing <code>fit_power_law</code> to capture all the observed data results in a poor fit as indicated by <code>KS.p = 2.032867e-10</code>. This significant <span class="math inline">\(p\)</span>-value leads us to reject the null hypothesis of this particular KS test; that the observed data comes from a power-law distribution. Thus, we conclude that <span class="math inline">\(g_b\)</span> doesn’t follow a power-law distribution.</p>
+<p>For comparison, we can simulate a scale-free network with the same number of vertices as <span class="math inline">\(g_b\)</span> and examine the simulated network’s degree distribution:</p>
+<pre class="r"><code>num_vertices &lt;- vcount(g_b)
+sim_graph &lt;- barabasi.game(num_vertices, directed = FALSE)
+plot_dd(sim_graph)</code></pre>
+<p><img src="hw_2_files/figure-html/unnamed-chunk-38-1.png" width="672" /></p>
+<p>And when we attempt to fit a power curve:</p>
+<pre class="r"><code>sim_graph.pl_fit &lt;- fit_power_law(degree(sim_graph), xmin = 1)
+sim_graph.pl_fit</code></pre>
+<pre><code>## $continuous
+## [1] FALSE
+## 
+## $alpha
+## [1] 2.174164
+## 
+## $xmin
+## [1] 1
+## 
+## $logLik
+## [1] -136.8616
+## 
+## $KS.stat
+## [1] 0.05342987
+## 
+## $KS.p
+## [1] 0.9377023</code></pre>
+<p>As we can see, the KS test shows that the degree distribution <code>sim_graph</code> follows a power-law distribution.</p>
+</div>
+<div id="section-4" class="section level1">
+<h1>#7</h1>
+<p>To determine if a graph is scale-free, a first step would be to examine the degree distribution (as outlined above) of the graph to see if it follows a power law distribution. After verifying that the degree distribution follows a power law, a second step would be to look at the clustering coefficient distribution. In a scale-free network, the clustering coefficient <span class="math inline">\(C(k)\)</span> is independent of <span class="math inline">\(k\)</span>; if our observed distribution of the clustering coefficient is close to a horizontal line, then we have more evidence that the graph is a scale-free network.</p>
+<p>A final way to verify if the observed graph is scale-free is to randomly remove portions of the graph and look at the degree distribution of the resulting graph. These graphs are called ‘scale-free’ because they resemble themselves in both degree distribution and visual appearance regardless of the scale chosen. To verify this property, we can remove random chunks of varying sizes from the network and repeat the above processes on them (examining the degree distribution, fitting it to a power curve, looking at the clustering coefficient). If the graph passes these examinations a significant number of times - that is, we are able to successfully fit a power curve to the degree distribution and observe an absence of relation between <span class="math inline">\(k\)</span> and <span class="math inline">\(C(k)\)</span> in, say, 95% of the subgraphs resulting from the removal of chunks - then we could conclude that the graph itself is scale-free.</p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -3,6 +3,7 @@ title: "Gene Ontology 1"
 author: "Paul Villanueva"
 date: "3/13/2019"
 output:
+  pdf_document: default
   html_document: default
 ---
 
@@ -114,3 +115,19 @@ experimentally_confirmed_genes_info %>%
     theme(plot.title = element_text(hjust = 0.5), legend.position = "none") + ylim(0, 1) +
     geom_text(aes(label = sprintf("%0.4f", ..proportion..)), vjust = -1)
 ```
+
+## Comparison to Guarav's method
+
+This is the way that Guarav suggested I read in the files:
+
+```{r}
+experimental_evidence_codes <- c("EXP", "IDA", "IPI", "IMP", "IGI", "IEP")
+cat("File", '\t', "Number of experimentally confirmed genes")
+for (f in Sys.glob("./data/hw4/*")){
+  organism <- read.table(f,comment.char="!", header=F, sep = "\t", stringsAsFactors = F, quote = "\"")
+  num_confirmed <- length(unique(organism[which(organism$V7 %in% experimental_evidence_codes),2]))
+  cat(f, '\t', num_confirmed, '\n')
+}
+```
+
+These numbers are the same numbers that I found in my first submission.

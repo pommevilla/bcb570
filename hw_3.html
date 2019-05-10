@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Paul Villanueva" />
+
+
+<title>BCB 570: Homework 3</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">About</a>
+</li>
+<li>
+  <a href="hw_2.html">Assignment 2</a>
+</li>
+<li>
+  <a href="hw_3.html">Assignment 3</a>
+</li>
+<li>
+  <a href="hw_4.html">Assignment 4</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">BCB 570: Homework 3</h1>
+<h4 class="author">Paul Villanueva</h4>
+<h4 class="date">2/15/2019</h4>
+
+</div>
+
+
+<div id="section" class="section level1">
+<h1>#1</h1>
+<p>We’ll start by reading both graphs in:</p>
+<pre class="r"><code>g_y2h &lt;- graph_from_data_frame(read.xlsx(&quot;./data/hw3/Y2H_uniondata.xlsx&quot;), directed = FALSE)
+g_ccsb &lt;- graph_from_data_frame(read.xlsx(&quot;./data/hw3/CCSB_YI1.xlsx&quot;), directed = FALSE)</code></pre>
+<div id="a." class="section level3">
+<h3>a.</h3>
+<p>Some graph metrics</p>
+<table>
+<thead>
+<tr class="header">
+<th>Metric</th>
+<th><code>g_y2h</code></th>
+<th><code>g_ccsb</code></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Radius</td>
+<td><span class="math inline">\(3.48\)</span></td>
+<td><span class="math inline">\(1.76\)</span></td>
+</tr>
+<tr class="even">
+<td>Diameter</td>
+<td><span class="math inline">\(11\)</span></td>
+<td><span class="math inline">\(5\)</span></td>
+</tr>
+<tr class="odd">
+<td>Average path lenght</td>
+<td><span class="math inline">\(3.48\)</span></td>
+<td><span class="math inline">\(1.76\)</span></td>
+</tr>
+<tr class="even">
+<td>Average clustering coefficient</td>
+<td><span class="math inline">\(0.10\)</span></td>
+<td><span class="math inline">\(0.11\)</span></td>
+</tr>
+<tr class="odd">
+<td>Global clustering coefficient</td>
+<td><span class="math inline">\(0.024\)</span></td>
+<td><span class="math inline">\(0.021\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Defining a function to visualize a graph’s degree distribution:</p>
+<pre class="r"><code>plot_dd &lt;- function(g){
+  g.dd &lt;- data.frame(0:(length(degree_distribution(g)) - 1), 
+                     degree_distribution(g, cumulative = FALSE))
+  colnames(g.dd) &lt;-c(&quot;k&quot;, &quot;p_k&quot;)
+  ggplot(g.dd, aes(x = k, y = p_k)) + geom_bar(stat = &quot;identity&quot;) +
+    labs(x = &quot;k&quot;, y = &quot;p(k)&quot;, title = &quot;Degree distribution: k vs. p(k)&quot;, 
+         subtitle = paste(&quot;Graph:&quot;, deparse(substitute(g)))) +
+    theme(plot.title = element_text(hjust = 0.5), plot.subtitle = element_text(hjust = 0.5))
+}</code></pre>
+<pre class="r"><code>plot_dd(g_y2h)</code></pre>
+<p><img src="hw_3_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>We’ll also see if the <code>g_y2h</code> follows a power law distribution.</p>
+<pre class="r"><code>(g_y2h.pl_fit &lt;- fit_power_law(degree(g_y2h)))</code></pre>
+<pre><code>## $continuous
+## [1] FALSE
+## 
+## $alpha
+## [1] 2.893596
+## 
+## $xmin
+## [1] 7
+## 
+## $logLik
+## [1] -462.446
+## 
+## $KS.stat
+## [1] 0.02677559
+## 
+## $KS.p
+## [1] 0.9997574</code></pre>
+<p>We see that the <span class="math inline">\(\alpha\)</span> proposed by <code>fit_power_law</code> is 2.89, which is between <span class="math inline">\(2\)</span> and <span class="math inline">\(3\)</span>, the value for the exponent proposed by Barabsi. Further, the <code>KS.p</code> value is very high, indicating that the degree distribution of <code>g_y2h</code> likely came from a power law distribution.</p>
+<p>For <code>g_ccsb</code>:</p>
+<pre class="r"><code>plot_dd(g_ccsb)</code></pre>
+<p><img src="hw_3_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<pre class="r"><code>(g_ccsb.pl_fit &lt;- fit_power_law(degree(g_ccsb)))</code></pre>
+<pre><code>## $continuous
+## [1] FALSE
+## 
+## $alpha
+## [1] 2.625133
+## 
+## $xmin
+## [1] 4
+## 
+## $logLik
+## [1] -608.3298
+## 
+## $KS.stat
+## [1] 0.02616949
+## 
+## $KS.p
+## [1] 0.9951312</code></pre>
+<p>Similar to the above, we have an <span class="math inline">\(\alpha\)</span> of 2.62 with a high <code>KS.p</code> value, indicating that <code>g_ccsb</code> likely comes from a power-law distribution.</p>
+<p>We’ll now determine if each of the graphs are small-world following the methodology outlined in the Humphries 2008 paper. We’ll begin with <code>g_y2h</code>:</p>
+<pre class="r"><code>calc_S &lt;- function(graph_object, B = 10, model = &quot;&quot;, directed = FALSE){
+  directed = FALSE
+  B = 10
+  graph_object = g_y2h
+  L_observed &lt;- mean_distance(graph_object, directed = FALSE)
+  C_observed &lt;- transitivity(graph_object, type = &quot;global&quot;)
+  L_sims &lt;- vector()
+  C_sims &lt;- vector()
+  order_observed &lt;- gorder(graph_object)
+  size_observed &lt;- gsize(graph_object)
+  for (i in 1:B){
+    # sim_graph &lt;- barabasi.game(order_observed, directed = FALSE, power = 2.6)
+    sim_graph &lt;- erdos.renyi.game(order_observed, size_observed, type = &quot;gnm&quot;)
+    L_sims[i] &lt;- mean_distance(sim_graph, directed = directed)
+    C_sims[i] &lt;- transitivity(sim_graph, type = &quot;global&quot;)
+  }
+  L_norm &lt;- L_observed / mean(L_sims)
+  C_norm &lt;- C_observed / mean(C_sims)
+  return( C_norm / L_norm)
+}</code></pre>
+<p>(Note: I think I should use the <code>barabasi.game</code> graph simulation function to simulate the networks as the observed graphs follow a scale-free power distribution. However, the results I wasn’t sure how to interpret the results that I got when I used that network model for my bootstrapping. As such, I used the Erdos~Renyi model instead, even though it may not adequately describe the network.)</p>
+<pre class="r"><code>calc_S(g_y2h)</code></pre>
+<pre><code>## [1] 18.33597</code></pre>
+<p>Since the <span class="math inline">\(S\)</span> score is greater than 1, we can conclude that the network is small-world.</p>
+<pre class="r"><code>calc_S(g_ccsb)</code></pre>
+<pre><code>## [1] 25.52712</code></pre>
+<p>We similarly conclude that <code>g_ccsb</code> is also small-world.</p>
+</div>
+<div id="b." class="section level3">
+<h3>b.</h3>
+<p>We begin by reading in the <code>YeastDeletion</code> data set:</p>
+<pre class="r"><code>yeast_deletion_data &lt;- read.csv(&quot;./data/hw3/Yeast_deletionProject_Fixed.csv&quot;, stringsAsFactors = FALSE)</code></pre>
+<p>We’ll call a node a hub if it has degree centrality in the top 90% of possible degree centralities.</p>
+<p>Now, looking for hubs according to their degree centrality:</p>
+<pre class="r"><code>g_y2h.highest_connectivity &lt;- sort(degree(g_y2h), decreasing = TRUE, index.return = FALSE)
+yeast_deletion_data %&gt;% filter(ORF %in% names(head(g_y2h.highest_connectivity)))</code></pre>
+<pre><code>##       ORF  Gene Chromosome Start.Coord Stop.Coord
+## 1 YLR423C APG17        XII      973165     971912
+##                 CYGD.description SGD.description
+## 1 protein involved in authophagy       autophagy</code></pre>
+<p>So we’ve observed that in the top 10% of nodes according to degree centrality, there is only one essential gene. To determine significance, we’ll take random samples of genes in the network and check those genes for essentiality.</p>
+<pre class="r"><code>essentiality_test &lt;- function(graph_object, B = 1000, directed = FALSE, perc = 0.10, 
+                              graph_name = deparse(substitute(graph_object)),
+                              centrality_function = degree){
+  
+  pick.num &lt;- floor(gorder(g_y2h) * perc)
+  
+  graph_hubs &lt;- sort(centrality_function(graph_object), decreasing = TRUE, index.return = FALSE)
+  
+  observed_essential_counts &lt;- yeast_deletion_data %&gt;% 
+    filter(ORF %in% names(head(graph_hubs, n = pick.num))) %&gt;% 
+    count() %&gt;% 
+    as.numeric()
+  
+  essentiality_counts &lt;- vector()
+  for (i in 1:B){
+    picked.random &lt;- as.numeric(sample(gorder(g_y2h), size = pick.num))
+    random.vertices &lt;- names(V(g_y2h)[picked.random])
+    essentiality_counts[i] &lt;- yeast_deletion_data %&gt;% 
+      filter(ORF %in% random.vertices) %&gt;% 
+      count()
+  }
+  
+  essentiality_counts &lt;- unlist(essentiality_counts)
+  
+  cutoff_lower &lt;- quantile((sort(essentiality_counts)), 0.025)
+  cutoff_upper &lt;- quantile((sort(essentiality_counts)), 0.975)
+  y_adj &lt;- B * 0.1
+
+  ggplot(data.frame(essentiality_counts), aes(essentiality_counts)) + geom_histogram(binwidth = 1) +
+    theme_bw() + 
+    labs(x = &quot;Essential gene count&quot;, y = &quot;Observations&quot;, title = &quot;Number of essential genes observed in samples of n genes&quot;,
+    subtitle = paste(&quot;Graph: &quot;, graph_name, &quot; (n = 10% of total genes, &quot;, 
+                     B, &quot; resamples, centrality = &quot;, 
+                     as.character(substitute(centrality_function)), &quot;)&quot;, sep = &quot;&quot;)) +
+    theme(plot.title = element_text(hjust = 0.5), plot.subtitle = element_text(hjust = 0.5)) + 
+    geom_vline(xintercept = cutoff_upper, colour = &quot;#BB0000&quot;, linetype = &quot;dashed&quot;)  +
+    annotate(&quot;text&quot;, x = cutoff_upper, y = y_adj, angle = 90, label = &quot;97.5% cutoff&quot;, 
+             vjust = 1.75) + 
+    geom_vline(xintercept = cutoff_lower, colour = &quot;#BB0000&quot;, linetype = &quot;dashed&quot;)  +
+    annotate(&quot;text&quot;, x = cutoff_lower, y = y_adj, angle = 90, label = &quot;2.5% cutoff&quot;, 
+             vjust = 1.75) +
+    geom_vline(xintercept = observed_essential_counts, colour = &quot;#0000FF&quot;, linetype = &quot;dashed&quot;) + 
+    annotate(&quot;text&quot;, x = observed_essential_counts, y = y_adj, angle = 90, label = &quot;Observed count&quot;, 
+             vjust = 1.75) 
+  
+}</code></pre>
+<pre class="r"><code>essentiality_test(g_y2h, graph_name = &quot;Y2H Union&quot;)</code></pre>
+<p><img src="hw_3_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p>Repeating for <code>g_ccsb</code>:</p>
+<pre class="r"><code>essentiality_test(g_ccsb, graph_name = &quot;CCSB&quot;)</code></pre>
+<p><img src="hw_3_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<p>We see a similar result.</p>
+</div>
+<div id="c." class="section level3">
+<h3>c.</h3>
+<p>To summarize our results in the previous section - we found that the number of essential genes in the top 10% of genes ranked by degree centrality is not statistically significantly different than the number of essential genes found in a random sample of genes of similar size. This shows strong evidence in support of Yu’s claim that degree centrality is not correlated with gene essentiality.</p>
+</div>
+</div>
+<div id="section-1" class="section level1">
+<h1>#2</h1>
+<p>Reading in <code>BioGrid2018</code> network, visualizing degree distribution:</p>
+<pre class="r"><code>t_bg2018 &lt;- read.table(&quot;./data/hw3/BioGrid2018_uni-2&quot;, header = TRUE, row.names = 1)
+g_bg2018 &lt;- graph_from_data_frame(t_bg2018[, 1:2], directed = FALSE)
+plot_dd(g_bg2018)</code></pre>
+<p><img src="hw_3_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<pre class="r"><code>g_bg2018.clusters &lt;- clusters(g_bg2018)
+g_bg2018.clusters$csize</code></pre>
+<pre><code>## [1] 5960</code></pre>
+<p>For comparison, this graph’s metrics alongside the previous two graphs:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Metric</th>
+<th><code>g_y2h</code></th>
+<th><code>g_ccsb</code></th>
+<th><code>g_bg2018</code></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Radius</td>
+<td><span class="math inline">\(3.48\)</span></td>
+<td><span class="math inline">\(1.76\)</span></td>
+<td><span class="math inline">\(3\)</span></td>
+</tr>
+<tr class="even">
+<td>Diameter</td>
+<td><span class="math inline">\(11\)</span></td>
+<td><span class="math inline">\(5\)</span></td>
+<td><span class="math inline">\(6\)</span></td>
+</tr>
+<tr class="odd">
+<td>Average path length</td>
+<td><span class="math inline">\(3.48\)</span></td>
+<td><span class="math inline">\(1.76\)</span></td>
+<td><span class="math inline">\(2.34\)</span></td>
+</tr>
+<tr class="even">
+<td>Average clustering coefficient</td>
+<td><span class="math inline">\(0.10\)</span></td>
+<td><span class="math inline">\(0.11\)</span></td>
+<td><span class="math inline">\(0.333\)</span></td>
+</tr>
+<tr class="odd">
+<td>Global clustering coefficient</td>
+<td><span class="math inline">\(0.024\)</span></td>
+<td><span class="math inline">\(0.021\)</span></td>
+<td><span class="math inline">\(0.043\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>We also see that <code>g_bg2018</code> is a small-world graph as its S score is higher than 1.</p>
+<pre class="r"><code>calc_S(g_bg2018)</code></pre>
+<pre><code>## [1] 23.23263</code></pre>
+<p>Finally, we’ll see if the degree distribution follows a power law:</p>
+<pre class="r"><code>(g_bg2018.pl_fit &lt;- fit_power_law(degree(g_bg2018)))</code></pre>
+<pre><code>## $continuous
+## [1] FALSE
+## 
+## $alpha
+## [1] 2.689456
+## 
+## $xmin
+## [1] 45
+## 
+## $logLik
+## [1] -5334.415
+## 
+## $KS.stat
+## [1] 0.02945661
+## 
+## $KS.p
+## [1] 0.2970416</code></pre>
+<p>The KS.test statistic indicates that the <code>g_bg2018</code> graph follows a power law distribution. Further, the exponent of the <code>g_bg2018</code> graph is quite close to the exponents of the other two graphs (2.689 versus 2.63 and 2.89, respectively). A key aspect of being a scale-free graph is its self-similar nature; that is, at different scales, the various metrics that describe the graph should be roughly the same. We can view the <code>g_y2h</code> and <code>g_ccsb</code> graphs as subgraphs of the <code>g_bg2018</code> graph, since this later graph contains more information than the previous two ones. Since the <code>g_bg2018</code> graph can be described by the same metrics as the other two graphs, there is support for the claim that <code>g_bg2018</code> is self-similar.</p>
+</div>
+<div id="section-2" class="section level1">
+<h1>#3</h1>
+<p>Getting largest connected component of <code>g_bg2018</code>.</p>
+<pre class="r"><code>g_bg2018.clusters &lt;- clusters(g_bg2018)
+g_bg2018.clusters$no</code></pre>
+<pre><code>## [1] 1</code></pre>
+<p>As we can see, there is only one connected component in the BioGrid 2018 graph. We’ll visualize it’s degree distribution.</p>
+<pre class="r"><code>g_bg2018.largest_connected &lt;- decompose.graph(g_bg2018)[[1]]
+plot_dd(g_bg2018.largest_connected)</code></pre>
+<p><img src="hw_3_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+<div id="a.-1" class="section level3">
+<h3>a.</h3>
+<p>We’ll see if there is some relation between betweenness score and essential genes by following a similar process as in 1b.</p>
+<pre class="r"><code>essentiality_test(g_bg2018, centrality_function = betweenness, 
+                  graph_name = &quot;BioGrid 2018&quot;)</code></pre>
+<p><img src="hw_3_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<p>Just as before when investigating the relationship between degree centrality and essentiality, a bootstrap resample test of the data does not provide any evidence for a relationship between betweenness centrality and gene essentiality.</p>
+</div>
+<div id="b.-1" class="section level3">
+<h3>b.</h3>
+<p>We used the <code>MCL</code> module on the HPC to perform the Markov clustering algorithm (with default values) on the <code>BG2018</code> network. We coerced the output from that algorithm into the a tab-separated file <code>BG2018.mcl</code>, where the <code>Gene</code> column contains a gene and the <code>Module</code> column is the module assigned to it by the MCL algorithm. We take this information and turn it into a communities object via the <code>assign_mcl_communities</code> function:</p>
+<pre class="r"><code>g_bg2018.mcl_modules &lt;- read.table(&quot;./data/hw3/BG2018.mcl&quot;, header = FALSE, sep = &quot;\t&quot;, 
+                                          stringsAsFactors = FALSE, col.names = c(&quot;Gene&quot;, &quot;Module&quot;))
+
+g_bg2018.communities &lt;- list(membership = g_bg2018.mcl_modules$Module, 
+              vcount = vcount(g_bg2018), 
+              names = g_bg2018.mcl_modules$Gene, 
+              algorithm=&quot;MCL&quot;)
+class(g_bg2018.communities) &lt;- &quot;communities&quot;</code></pre>
+<pre class="r"><code>assign_mcl_communities &lt;- function(graph_object, module_assignments){
+  mcl_module_assignments &lt;- read.table(module_assignments, header = FALSE, sep = &quot;\t&quot;, 
+                                          stringsAsFactors = FALSE, col.names = c(&quot;Gene&quot;, &quot;Module&quot;))
+  mcl_communities &lt;- list(membership = mcl_module_assignments$Module,
+                          vcount = vcount(graph_object),
+                          names = mcl_module_assignments$Gene,
+                          algorithm = &quot;MCL&quot;)
+  class(mcl_communities) &lt;- &quot;communities&quot;
+  return(mcl_communities)
+}</code></pre>
+<pre class="r"><code>g_bg2018.communities &lt;- assign_mcl_communities(g_bg2018, &quot;./data/hw3/BG2018.mcl&quot;)</code></pre>
+<p>The communities are sorted by size, so the first community is the largest:</p>
+<pre class="r"><code>length(g_bg2018.communities[[1]])</code></pre>
+<pre><code>## [1] 5036</code></pre>
+<p>We see the modularity score of this community structure is quite low:</p>
+<pre class="r"><code>modularity(g_bg2018, g_bg2018.communities$membership)</code></pre>
+<pre><code>## [1] 0.0005279652</code></pre>
+<p>This score is incredibly low. To compare, doing a greedy clustering by maximizing modularity leads to the following modularity score:</p>
+<pre class="r"><code>modularity(g_bg2018, cluster_fast_greedy(g_bg2018)$membership)</code></pre>
+<pre><code>## [1] 0.2805357</code></pre>
+<p>To remove random edges from <code>g_bg2018</code>, we used the UNIX command <code>shuf</code> to randomly pick 90% of the edges in the graph. We then ran the MCL algorithm on this reduced network and saved the module assignments in the appropriate file:</p>
+<pre class="r"><code>g_bg2018.subsampled_90 &lt;- graph_from_data_frame(read.table(&quot;./data/hw3/BG_trimmed.subsampled_90&quot;, 
+                                                           sep = &quot; &quot;, header = FALSE,
+                                                           stringsAsFactors = FALSE), directed = FALSE)
+g_bg2018.subsampled_90.communities &lt;- assign_mcl_communities(g_bg2018.subsampled_90,
+                                                             &quot;./data/hw3/BG2018.subsampled_90.mcl&quot;)
+modularity(g_bg2018.subsampled_90, g_bg2018.subsampled_90.communities$membership)</code></pre>
+<pre><code>## [1] -0.01352761</code></pre>
+<p>We repeated the above process to randomly remove 25% of the edges in <code>g_bg2018</code>:</p>
+<pre class="r"><code>g_bg2018.subsampled_75 &lt;- graph_from_data_frame(read.table(&quot;./data/hw3/BG_trimmed.subsampled_75&quot;, 
+                                                           sep = &quot; &quot;, header = FALSE,
+                                                           stringsAsFactors = FALSE), directed = FALSE)
+g_bg2018.subsampled_75.communities &lt;- assign_mcl_communities(g_bg2018.subsampled_90,
+                                                             &quot;./data/hw3/BG2018.subsampled_75.mcl&quot;)
+modularity(g_bg2018.subsampled_75, g_bg2018.subsampled_75.communities$membership)</code></pre>
+<pre><code>## [1] -0.006211082</code></pre>
+<p>So we see that by randomly removing edges and comparing the modularity score for the resulting MCL community assignments, the community structure gets worse. A more rigorous way of examining how much worse it is would be to repeat this procedure several times and create a histogram similar to the ones in the previous sections.</p>
+</div>
+<div id="c.-1" class="section level3">
+<h3>c.</h3>
+<p>The communities found in #3B are organized such that the largest module is the first one. We searched for the genes in this largest module in the <code>yeast_deletion_data</code> table and summarized the results in the below barcharts. First, we visualize the counts of the SGD description, keeping note of only the descriptions that appear more than 10 times:</p>
+<pre class="r"><code>yeast_deletion_data %&gt;% 
+  filter(ORF %in% g_bg2018.communities[[1]]) %&gt;% 
+  count(SGD.description) %&gt;% filter(n &gt; 10) %&gt;% 
+  ggplot(aes(x = SGD.description, y = n)) + geom_bar(stat = &quot;identity&quot;) +
+  labs(x = &quot;Description&quot;, y = &quot;Count&quot;, title = &quot;SGD Description Counts&quot;) +
+    theme(plot.title = element_text(hjust = 0.5), plot.subtitle = element_text(hjust = 0.5),
+        axis.text.x = element_text(angle = 45, hjust = 1))</code></pre>
+<p><img src="hw_3_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
+<p>We see that the most represented function in this cluster is “NA”, “biological process unknown”, and “protein biosynthesis”. We look at the CYGD description now, only noting the descriptions that appear 10 or more times:</p>
+<pre class="r"><code>yeast_deletion_data %&gt;% 
+  filter(ORF %in% g_bg2018.communities[[1]]) %&gt;% 
+  count(CYGD.description) %&gt;% filter(n &gt; 10) %&gt;% 
+  ggplot(aes(x = CYGD.description, y = n)) + geom_bar(stat = &quot;identity&quot;) +
+  labs(x = &quot;Description&quot;, y = &quot;Count&quot;, title = &quot;CYGD Description Counts&quot;) +
+    theme(plot.title = element_text(hjust = 0.5), plot.subtitle = element_text(hjust = 0.5), 
+        axis.text.x = element_text(angle = 45, hjust = 1))</code></pre>
+<p><img src="hw_3_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
+<p>The CYGD description data is not curated enough to be meaningful as most of the descriptions are blank. The SGD and CYGD description fields can benefit from some expert curation before any more meaningful analysis can be done.</p>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
